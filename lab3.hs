@@ -5,9 +5,10 @@ type Column = [Line]
 
 m = [[1,2,3], [4,5,6], [7,8,9]]
 
-
+-- default list indexing
 line i m = m !! i
 
+-- construct a list that contains the j-th element in each sublist (line)
 column j m = foldr (\line rest -> (line !! j):rest) [] m
 
 elemAt i j m = (line i m) !! j
