@@ -1,6 +1,6 @@
 # README
 
-Repository for PP source files and other useful stuff.
+Source files and other useful stuff.
 
 **Useful resources**
 
