@@ -1,29 +1,33 @@
---  operatii pe matrici
+--  matrix operations
 
+--  define custom type aliases for a matrix
 type Line = [Int]
-type Column = [Line]
+type Column = [Int]
+type Matrix = [Line]
 
+--  define a test matrix
 m = [[1,2,3], [4,5,6], [7,8,9]]
 
--- default list indexing
+-- gets the i-th line: default list indexing
 line i m = m !! i
 
--- construct a list that contains the j-th element in each sublist (line)
+--  gets the j-th column
+--  construct a list that contains the j-th element in each sublist (line)
 column j m = foldr (\line rest -> (line !! j):rest) [] m
 
+--  returns m[i][j]
 elemAt i j m = (line i m) !! j
 
 
---	map show on each element and then construct a string
+--  map show on each element and then construct a string
 getString l = ((foldr (\h t -> h ++ "\t" ++ t) "") . (map show)) l
 
+--  constructs a string for each line and append a newline at the end
 printMatrix m = putStr $ foldr (\line rest -> (getString line) ++ "\n" ++ rest) "" m
 
 
-
-
 --	transpose
-tr ([]:_) = []
+tr ([]:_) = [] -- done
 tr m = (map head m):(tr (map tail m))
 
 
