@@ -1,53 +1,55 @@
+--  naive sum
 sum' [] = 0
 sum' (e:l) = e + (sum l)
 
+--  tail-recursive sum
 bsum' acc [] = acc
 bsum' acc (e:l) = bsum' (acc+e) l
 bsum l = bsum' 0 l 
 
--- naive
+--  naive factorial
 fact1 0 = 1
 fact1 1 = 1
 fact1 n = n * fact1 (n-1)
 
--- tail recursive
+--  tail-recursive factorial
 fact2 acc 1 = acc
 fact2 acc n = fact2 (n*acc) (n-1)
-
+--  wrapper
 fact n = fact2 1 n
 
 
--- naive
+--  naive fibonacci
 fib1 0 = 1
 fib1 1 = 1
 fib1 n = (fib1 (n-1)) + (fib1 (n-2))
 
--- tail recursive
+--  tail-recursive fibonacci
 fib2 a _ 0 = a
 fib2 a b n = fib2 (a+b) a (n-1)
-
+--  wrapper
 fib n = fib2 0 1 n
 
 
-
-
 -- TDA / pattern matching
+--  length in Haskell
 size :: [a] -> Int
 size [] = 0
 size (e:l) = 1 + (size l)
 
+--  append (++) in Haskell
 app :: [a] -> [a] -> [a]
 app [] l = l
 app (e1:l1) l2 = e1:(app l1 l2) 
 
+--  reverse in Haskell
 rev :: [a] -> [a]
 rev [] = []
 rev (e:l) = (rev l) `app` (e:[])
 
 
-
-
 -- higher order functions
+
 -- anonymous functions (lambdas)
 rev' l = foldl (\list el -> el:list) [] l
 
@@ -74,8 +76,3 @@ q x = p 2 x
 
 -- (+ 1) is a closure: function that waits another Num (x) and returns x + 1
 r x = (+) 1 x
-
-
-
-
-
