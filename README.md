@@ -7,9 +7,18 @@ Source files and other useful stuff.
  - http://learnyouahaskell.com/
  - http://book.realworldhaskell.org/
 
- **Exercises**
 
+----------
+
+
+ **Exercises** 
+ 
  - https://wiki.haskell.org/99_questions
 
+
+----------
+
+
  **Reference**
+ 
  - https://www.haskell.org/hoogle/
