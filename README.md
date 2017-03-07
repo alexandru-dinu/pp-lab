@@ -19,6 +19,6 @@ Source files and other useful stuff.
 ----------
 
 
- **Reference**
+ **References**
  
  - https://www.haskell.org/hoogle/
