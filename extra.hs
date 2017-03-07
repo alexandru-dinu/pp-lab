@@ -17,3 +17,11 @@ trim acc e (h:t) = if (e == h) then (trim (acc+1) e t) else (acc, (h:t))
 
 mp' [] = []
 mp' (e:l) = (fst tpl, e) : (mp' (snd tpl)) where tpl = trim 0 e (e:l)
+
+
+--	replicate
+copy e 0 = []
+copy e n = e : (copy e (n-1))
+
+repl [] _ = []
+repl (e:l) n = (copy e n) ++ (repl l n)
