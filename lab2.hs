@@ -32,6 +32,25 @@ h f g x = f (g x)
 -- remove all odd numbers and increment the even numbers
 f l = (.) (map (+1)) (filter even) l
 
+-- be careful with types
+-- (^) and (**) both represent pow functions
+
+-- (^) :: (Integral b, Num a) => a -> b -> a
+-- (^) x y means x raised to the y power, where y is an Integer
+--
+-- (**) :: Floating a => a -> a -> a
+
+-- even :: Integral a => a -> Bool
+
+-- will throw an error
+-- because (**) works with Floating type
+-- while (even) works with Integral type 
+-- p1 = (.) (map (**2)) (filter even)
+
+--  will work fine
+--  becuase (^) works with Integral type
+p2 = (.) (map (^2)) (filter even)
+
 
 -- merge sort
 merge [] [] = []
