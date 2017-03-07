@@ -48,7 +48,7 @@ f l = (.) (map (+1)) (filter even) l
 -- p1 = (.) (map (**2)) (filter even)
 
 --  will work fine
---  becuase (^) works with Integral type
+--  becuase (^) is type-compatible with (even)
 p2 = (.) (map (^2)) (filter even)
 
 
