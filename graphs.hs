@@ -32,7 +32,6 @@ getNeighbours i (n:t) = if (i == fst n) then snd n else getNeighbours i t
 
 
 -- given two nodes a and b in a graph, returns all the acyclic paths from a to b.
--- paths 1 4 graph2 = [[1,2,3,4],[1,3,4]]
 
 -- if the source is the same as the destination, then the path consists of that particular node
 -- otherwise, add the source to the result and compute the rest of the path
