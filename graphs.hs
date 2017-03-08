@@ -47,4 +47,4 @@ paths src dst edges
     | otherwise = [
         src:path | edge <- edges, (fst edge) == src,
         path <- (paths (snd edge) dst [e | e <- edges, e /= edge])
-    ] 
+    ]
