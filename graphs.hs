@@ -37,9 +37,9 @@ getNeighbours i (n:t) = if (i == fst n) then snd n else getNeighbours i t
 --	if the source is the same as the destination, then the path consists of that particular node
 --	otherwise, add the source to the result and compute the rest of the path
 --	the rest of the path is computed in the following manner:
---		for each edge in the edge list (graph), such that the first node (fst edge) of that edge is the current source (same as for each outgoing edge)
---		choose the path by recursively calling paths with the new source (snd edge), same destination and the new edge list
---		the new edge list contains all the edges from the initial edge-list, without the selected edge at the current step
+--  for each edge in the edge list (graph), such that the first node (fst edge) of that edge is the current source (same as for each outgoing edge)
+--	choose the path by recursively calling paths with the new source (snd edge), same destination and the new edge list
+--	the new edge list contains all the edges from the initial edge-list, without the selected edge at the current step
 
 paths :: Node -> Node -> GraphL -> [[Node]]
 paths src dst edges
