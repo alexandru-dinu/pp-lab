@@ -4,7 +4,7 @@ rd l = foldl (\acc e -> if (e `elem` acc) then acc else acc ++ [e]) [] l
 --	make pairs (e, count(e))
 --	[1,1,1,2,2,3] -> [(1,3), (2,2), (3,1)]
 
-aux x l = foldl (\(c, l) e -> if (x == e) then (1 + c, l) else (c, l ++ [e])) (0, []) l
+--aux x l = foldl (\(c, l) e -> if (x == e) then (1 + c, l) else (c, l ++ [e])) (0, []) l
 
 count x l = fst (aux x l)
 listWithout x l = snd (aux x l)
