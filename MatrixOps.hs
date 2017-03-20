@@ -44,5 +44,3 @@ msum m1 m2 = zipWith (zipWith (+)) m1 m2
 --	multiplying m1 x m2
 r i j = sum $ zipWith (*) i j
 mult m1 m2 = map (\i -> (map (\j -> (r i j)) (tr m2))) m1
-
-
