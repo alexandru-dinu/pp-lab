@@ -14,3 +14,4 @@ Source files and other useful stuff.
 **References**
  
  - https://www.haskell.org/hoogle/
+ - http://www.cdglabs.org/prolog/
