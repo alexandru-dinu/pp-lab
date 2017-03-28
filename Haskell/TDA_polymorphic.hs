@@ -61,7 +61,7 @@ tree1 = Node 1 (Node 2 (Leaf 3) (Leaf 4)) (Leaf 5)
 tree2 = Node 1 (Leaf 2) (Leaf 3)
 
 {-
-	1
+    1
    / \
   2  5
  / \
