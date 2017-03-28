@@ -73,7 +73,7 @@ tree2 = Node 1 (Leaf 2) (Leaf 3)
 rsd :: Tree a -> [a]
 rsd Null = []
 rsd (Leaf a) = [a]
-rsd (Node key left right) = (key:(rsd left)) ++ (rsd right)
+rsd (Node key left right) = [key] ++ (rsd left) ++ (rsd right)
 
 -- inorder
 srd :: Tree a -> [a]
