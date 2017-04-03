@@ -25,3 +25,9 @@ copy e n = e : (copy e (n-1))
 
 repl [] _ = []
 repl (e:l) n = (copy e n) ++ (repl l n)
+
+
+-- zipWith with fold
+zw op l1 l2 = let len = (length l1 - 1) in
+                foldr (\f acc -> (f (l2 !! (len - length acc)):acc)) [] l1' 
+                where l1' = map (\x -> op x) l1

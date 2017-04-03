@@ -93,6 +93,9 @@ mirror Null = Null
 mirror (Leaf a) = (Leaf a)
 mirror (Node key left right) = Node key (mirror right) (mirror left)
 
+
+
+
 -- accumulates starting from left
 tfoldl :: (t -> t -> t) -> t -> (Tree t) -> t
 tfoldl _ acc Null = acc
@@ -112,6 +115,9 @@ tfold op acc (Leaf a) = op acc a
 tfold op acc (Node key left right) = let rest = op onLeft onRight in op key rest
                                      where {onLeft = tfold op acc left;
                                             onRight = tfold op acc right;}
+
+
+
 
 tmap :: (a -> b) -> (Tree a) -> (Tree b)
 tmap _ Null = Null
