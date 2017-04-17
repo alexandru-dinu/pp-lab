@@ -1,3 +1,5 @@
+-- courtesy of Matei Popovici
+
 -- a String denotes a name (variable)
 
 data Lambda = Var String | Lambda String Lambda | App Lambda Lambda
