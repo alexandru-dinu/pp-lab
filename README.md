@@ -15,3 +15,4 @@ Source files and other useful stuff.
  
  - https://www.haskell.org/hoogle/
  - http://www.cdglabs.org/prolog/
+ - λ-calculus interpreter - https://goo.gl/eBPIMU
