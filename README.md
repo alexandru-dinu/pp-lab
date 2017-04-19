@@ -13,7 +13,7 @@ Source files and other useful stuff.
 
 **References**
  
- - https://www.haskell.org/hoogle/
- - http://www.cdglabs.org/prolog/
+ - [Hoogle - Haskell API search engine](https://www.haskell.org/hoogle/)
  - [λ-calculus interpreter](https://goo.gl/eBPIMU)
  - [elsa](https://github.com/ucsd-progsys/elsa) - a tiny language designed to build intuition about how computation-by-substitution works in λ-calculus
+ - [Prolog visualizer](http://www.cdglabs.org/prolog/)
