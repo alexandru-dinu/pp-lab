@@ -16,4 +16,4 @@ Source files and other useful stuff.
  - https://www.haskell.org/hoogle/
  - http://www.cdglabs.org/prolog/
  - λ-calculus interpreter - https://goo.gl/eBPIMU
- - elsa - a tiny language designed to build intuition about how computation-by-substitution works in Lambda Calculus - https://github.com/ucsd-progsys/elsa
+ - elsa - a tiny language designed to build intuition about how computation-by-substitution works in λ-calculus - https://github.com/ucsd-progsys/elsa
