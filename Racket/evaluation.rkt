@@ -14,4 +14,4 @@
 ; thus meaning that Racket uses an applicative (eager) evaluation system
 
 ; Haskell, on the other hand, will return 1 (will call stop with argument (loop x),
-; and since stop is a constant function, it will return 1, without evaluating loo
+; and since stop is a constant function, it will return 1, without evaluating loop
