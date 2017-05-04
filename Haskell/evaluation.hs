@@ -62,7 +62,7 @@ data Acc = Acc { bool :: Bool
 			   , int :: Int
 			   } deriving Show
 
--- will finish and returns 2 (for l above)
+-- will finish returning 2 (for l above)
 eval_or :: Bool -> Acc -> Acc
 eval_or True acc = Acc True 1
 eval_or b acc = Acc (b || (bool acc)) ((+) 1 (int acc))
