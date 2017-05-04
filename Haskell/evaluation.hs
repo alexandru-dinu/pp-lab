@@ -54,3 +54,20 @@ fibn' = 0:1:zipWith (+) fibn' (tail fibn')
 --	sieve of Eratosthenes
 sieve (h:t) = h:(sieve (filter (\x -> x`mod`h /= 0) t))
 primes = sieve (drop 2 naturals)
+
+-- more stuff
+l = False:True:l
+
+data Acc = Acc { bool :: Bool
+			   , int :: Int
+			   } deriving Show
+
+-- will finish and returns 2 (for l above)
+eval_or :: Bool -> Acc -> Acc
+eval_or True acc = Acc True 1
+eval_or b acc = Acc (b || (bool acc)) ((+) 1 (int acc))
+
+-- will not finish
+e :: Bool -> Acc -> Acc
+e False (Acc False x) = Acc False x
+e _ (Acc _ x) = Acc True (x + 1)
