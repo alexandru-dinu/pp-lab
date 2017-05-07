@@ -9,7 +9,8 @@ Source files and other useful stuff.
 
 **Exercises**
  
- - https://wiki.haskell.org/99_questions
+ - [H-99: Ninety-Nine Haskell Problems](https://wiki.haskell.org/99_questions)
+ - [P-99: Ninety-Nine Prolog Problems](https://sites.google.com/site/prologsite/prolog-problems)
 
 **References**
  
