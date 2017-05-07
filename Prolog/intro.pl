@@ -1,18 +1,30 @@
 %% INTRO
 
-% knowledge bases and simple interogations
+% key-features of Prolog
+% knowledge bases 
+% simple interogations
+% pattern matching
+% goal satisfaction via automatic backtracking
+
+% here we have facts that translate in this way to natural language:
+% alex is a student
 student(alex).
+%tom is a student
 student(tom).
 
+% alex studies science
 studies(alex, science).
+% tom studies literature
 studies(tom, literature).
 
 % what does alex study? => studies(alex, Out) => Out will unify with science
 % who studies literature? => studies(Out, literature) => Out will unify with tom
 
-% each predicate is specified as <name>/<arity>
 
-% father/2
+% a predicate has the following signature: <name>/<arity>
+
+% for example: father/2
+% abe's father is orville
 father(orville, abe).
 father(abe, homer).
 
@@ -20,9 +32,12 @@ father(homer, bart).
 father(homer, lisa).
 father(homer, maggie).
 
+% interrogate: all kids of homer => ?- parent(homer, K)
+
+% X's grandfather is Y
+% X's grandfather is the fater of X's father
 grandfather(X, Y) :- father(X, Z), father(Z, Y).
 
-% all kids of homer => parent(homer, K)
 
 
 
@@ -32,13 +47,15 @@ grandfather(X, Y) :- father(X, Z), father(Z, Y).
 %% LIST OPERATIONS
 % in Prolog, list are not homogenous
 % we can have [1, 2, [3, 4, 5], [6, [7]], 8, 9, [10]]
-% programming relies upon pattern matching and goal satisfaction
 
-lsize([], 0). % size of the empty list is 0
+% fact: size of the empty list is 0
+lsize([], 0).
 lsize([_|T], S) :- lsize(T, Snext), S is Snext + 1.
 
+% fact: sum of all the elements in the empty list is 0
 lsum([], 0).
 lsum([H|T], S) :- lsum(T, Snext), S is H + Snext.
+
 
 lhead([H|_], H).
 % head([], Out) is false 
@@ -47,6 +64,7 @@ ltail([_|T], T).
 % list([], Out) is false
 
 % or faster: [Head|Tail] = List
+
 
 % use this to construct the backtracking tree
 lcontains(X, [X|_]).
@@ -66,29 +84,43 @@ ltake(N, [H|T], [H|Rest]) :- N1 is N - 1, ltake(N1, T, Rest), !.
 %% SET OPERATIONS
 
 % set union (Ain, Bin, Rout)
-set_union([], L, L).
+% R = {x | x in A or x in B}
+
+% base cases
+set_union([], L, L). 
 set_union(L, [], L).
+
 set_union([H|T], B, R) :- member(H, B), set_union(T, B, R), !.
 set_union([H|T], B, [H|R]) :- not(member(H, B)), set_union(T, B, R), !.
 
+
 % set intersection (Ain, Bin, Rout)
+% R = {x | x in A and x in B}
+
+% base cases
 set_intersection([], _, []).
 set_intersection(_, [], []).
+
 set_intersection([H|T], B, [H|R]) :- 
 	member(H, B), set_intersection(T, B, R), !.
 set_intersection([H|T], B, R) :- 
 	not(member(H, B)), set_intersection(T, B, R), !.
 
+
 % set difference (Ain, Bin, Rout)
+% R = {x | x in A and x not in B}
+
+% base cases
 set_difference([], _, []).
 set_difference(A, [], A).
+
 set_difference([H|T], B, [H|R]) :- 
 	not(member(H, B)), set_difference(T, B, R), !.
 set_difference([H|T], B, R) :- 
 	member(H, B), set_difference(T, B, R), !.
 
 
-% generate start:step:lim
+% generate list (start:step:lim)
 gen_list(Start, _, Lim, []) :- Start > Lim, !.
 gen_list(Start, Step, Lim, [Start|Rest]) :- 
 	S is Start + Step, S =< Lim, gen_list(S, Step, Lim, Rest), !.
@@ -96,6 +128,9 @@ gen_list(Start, Step, Lim, [Start]) :-
 	S is Start + Step, S > Lim, !.
 
 
+% complement of L in the large "World"
+% complement = World - L
+% here, World is the list [0, 1, 2, ..., 7] (for testing purposes)
 complement(L, Out) :- gen_list(0, 1, 7, World), set_difference(World, L, Out).
 
 
@@ -141,11 +176,15 @@ insert(X, [H|T], [H|Rest]) :- X > H, insert(X, T, Rest).
 
 % node(1, (node(2, leaf(3), leaf(4))), (node(5, leaf(6), nil)))
 
+% fact: the size of the empty tree is 0
 tsize(nil, 0).
+% fact: the size of a leaf is 1
 tsize(leaf(_), 1).
 tsize(node(_, L, R), S) :- tsize(L, S1), tsize(R, S2), S is 1 + S1 + S2.
 
+% fact: the height of the empty tree is 0
 theight(nil, 0).
+% fact: the height of a leaf is 1
 theight(leaf(_), 1).
 theight(node(_, L, R), H) :- theight(L, H1), theight(R, H2), H is 1 + max(H1, H2).
 
