@@ -1,37 +1,161 @@
+%% INTRO
+
 % knowledge bases and simple interogations
-father(george, ana).
-father(george, mike).
-siblings(X, Y) :- father(F, X), father(F, Y).
+student(alex).
+student(tom).
+
+studies(alex, science).
+studies(tom, literature).
+
+% what does alex study? => studies(alex, Out) => Out will unify with science
+% who studies literature? => studies(Out, literature) => Out will unify with tom
+
+% each predicate is specified as <name>/<arity>
+
+% father/2
+father(orville, abe).
+father(abe, homer).
+
+father(homer, bart).
+father(homer, lisa).
+father(homer, maggie).
+
+grandfather(X, Y) :- father(X, Z), father(Z, Y).
+
+% all kids of homer => parent(homer, K)
 
 
-% list operations
+
+
+
+
+%% LIST OPERATIONS
 % in Prolog, list are not homogenous
 % we can have [1, 2, [3, 4, 5], [6, [7]], 8, 9, [10]]
 % programming relies upon pattern matching and goal satisfaction
 
-% in:list
-% out:S
 lsize([], 0). % size of the empty list is 0
 lsize([_|T], S) :- lsize(T, Snext), S is Snext + 1.
 
-% in:list
-% out:sum
 lsum([], 0).
 lsum([H|T], S) :- lsum(T, Snext), S is H + Snext.
 
-% in:list
-% out:H
 lhead([H|_], H).
 % head([], Out) is false 
 
-% in:list
-% out:T
 ltail([_|T], T).
 % list([], Out) is false
 
-% in:n, list
-% out:first n elems from list
+% or faster: [Head|Tail] = List
+
+% use this to construct the backtracking tree
+lcontains(X, [X|_]).
+lcontains(X, [H|T]) :- X \= H, lcontains(X, T). %, !. (satisfy once)
+
+
 ltake(_, [], []). % empty list case
 ltake(N, _, []) :- N = 0, !.
 %ltake(N, L, L) :- lsize(L, N), !.
 ltake(N, [H|T], [H|Rest]) :- N1 is N - 1, ltake(N1, T, Rest), !.
+
+
+
+
+
+
+%% SET OPERATIONS
+
+% set union (Ain, Bin, Rout)
+set_union([], L, L).
+set_union(L, [], L).
+set_union([H|T], B, R) :- member(H, B), set_union(T, B, R), !.
+set_union([H|T], B, [H|R]) :- not(member(H, B)), set_union(T, B, R), !.
+
+% set intersection (Ain, Bin, Rout)
+set_intersection([], _, []).
+set_intersection(_, [], []).
+set_intersection([H|T], B, [H|R]) :- 
+	member(H, B), set_intersection(T, B, R), !.
+set_intersection([H|T], B, R) :- 
+	not(member(H, B)), set_intersection(T, B, R), !.
+
+% set difference (Ain, Bin, Rout)
+set_difference([], _, []).
+set_difference(A, [], A).
+set_difference([H|T], B, [H|R]) :- 
+	not(member(H, B)), set_difference(T, B, R), !.
+set_difference([H|T], B, R) :- 
+	member(H, B), set_difference(T, B, R), !.
+
+
+% generate start:step:lim
+gen_list(Start, _, Lim, []) :- Start > Lim, !.
+gen_list(Start, Step, Lim, [Start|Rest]) :- 
+	S is Start + Step, S =< Lim, gen_list(S, Step, Lim, Rest), !.
+gen_list(Start, Step, Lim, [Start]) :- 
+	S is Start + Step, S > Lim, !.
+
+
+complement(L, Out) :- gen_list(0, 1, 7, World), set_difference(World, L, Out).
+
+
+
+
+
+
+%% OCW EXERCISES
+
+firstTwo(X, Y, [H1,H2|_]) :- X = H1, Y = H2.
+
+notContains(_, []).
+notContains(E, [H|T]) :- E \= H, notContains(E, T), !.
+
+
+%	unique(Lin, Lout)
+unique([], []). 
+unique([H|T], R) :- unique(T, R), member(H, R).
+unique([H|T], [H|R]) :- unique(T, R), not(member(H, R)). 
+
+%	listOnly(Lin, Lout)
+listOnly([], []).
+listOnly([H|T], R) :- listOnly(T, R), not(isList(H)).
+listOnly([H|T], [H|R]) :- listOnly(T, R), isList(H). 
+
+isList([]).
+isList([_|_]).
+
+%	insertionSort(Lin, Lout)
+insertionSort([], []).
+insertionSort([H|T], Rest) :- insertionSort(T, R1), insert(H, R1, Rest).
+
+% insert number into sorted list
+insert(X, [], [X]) :- !.
+insert(X, [H|T], [X,H|T]) :- X =< H, !.
+insert(X, [H|T], [H|Rest]) :- X > H, insert(X, T, Rest).
+
+
+
+%% TREE REPRESENTATION
+% leaf(key) = node(key, nil, nil)
+% node(key, left, right)
+
+% node(1, (node(2, leaf(3), leaf(4))), (node(5, leaf(6), nil)))
+
+tsize(nil, 0).
+tsize(leaf(_), 1).
+tsize(node(_, L, R), S) :- tsize(L, S1), tsize(R, S2), S is 1 + S1 + S2.
+
+theight(nil, 0).
+theight(leaf(_), 1).
+theight(node(_, L, R), H) :- theight(L, H1), theight(R, H2), H is 1 + max(H1, H2).
+
+
+
+
+
+
+%% EVAL
+eval(val(V), R) :- R is V.
+eval(add(E1, E2), R) :- eval(E1, R1), eval(E2, R2), R is R1 + R2.
+eval(sub(E1, E2), R) :- eval(E1, R1), eval(E2, R2), R is R1 - R2.
+eval(mult(E1, E2), R) :- eval(E1, R1), eval(E2, R2), R is R1 * R2.

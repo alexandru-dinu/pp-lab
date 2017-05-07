@@ -15,7 +15,7 @@ map(F, [H|T], [O|Rest]) :- call(F, H, O), map(F, T, Rest).
 
 foldl(_, Acc, [], Acc) :- !.
 foldl(Op, Acc, [H|T], Out) :- call(Op, Acc, H, NewAcc), % Op(Acc, H, NewAcc)
-						foldl(Op, NewAcc, T, Out), !.
+						foldl(Op, NewAcc, T, Out).
 
 foldr(_, Acc, [], Acc).
 %% foldr(Op, Acc, [H|T], Out) :- foldr(Op, Acc, T, Rest), call(Op, H, Rest) 
