@@ -7,9 +7,9 @@
 % goal satisfaction via automatic backtracking
 
 % here we have facts that translate in this way to natural language:
-% alex is a student
+% alex is-a student
 student(alex).
-%tom is a student
+% tom is-a student
 student(tom).
 
 % alex studies science
@@ -35,13 +35,15 @@ father(homer, maggie).
 % interrogate: all kids of homer => ?- parent(homer, K)
 
 % X's grandfather is Y
-% X's grandfather is the fater of X's father
+% X's grandfather is the father of X's father
 grandfather(X, Y) :- father(X, Z), father(Z, Y).
 
 
 
 
 
+% warm-up
+palindrome(L) :- reverse(L, L).
 
 
 %% LIST OPERATIONS
@@ -75,6 +77,8 @@ ltake(_, [], []). % empty list case
 ltake(N, _, []) :- N = 0, !.
 %ltake(N, L, L) :- lsize(L, N), !.
 ltake(N, [H|T], [H|Rest]) :- N1 is N - 1, ltake(N1, T, Rest), !.
+
+
 
 
 
@@ -159,14 +163,34 @@ listOnly([H|T], [H|R]) :- listOnly(T, R), isList(H).
 isList([]).
 isList([_|_]).
 
-%	insertionSort(Lin, Lout)
+
+% insertionSort(Lin, Lout)
 insertionSort([], []).
-insertionSort([H|T], Rest) :- insertionSort(T, R1), insert(H, R1, Rest).
+insertionSort([H|T], Sorted) :- insertionSort(T, R1), insert(H, R1, Sorted).
 
 % insert number into sorted list
 insert(X, [], [X]) :- !.
 insert(X, [H|T], [X,H|T]) :- X =< H, !.
 insert(X, [H|T], [H|Rest]) :- X > H, insert(X, T, Rest).
+
+
+% mergeSort(Lin, Lout)
+mergeSort([], []) :- !.
+mergeSort([X], [X]) :- !.
+mergeSort(L, Sorted) :- split(L, Left, Right),
+						mergeSort(Left, LL),
+						mergeSort(Right, RR),
+						merge(LL, RR, Sorted), !.
+
+split(L, L1, L2) :- append(L1, L2, L),
+					length(L1, N1), 
+					length(L2, N2),
+					(N1 = N2 ; 1 is abs(N1-N2)), !.
+
+merge(L, [], L).
+merge([], L, L).
+merge([H1|T1], [H2|T2], [H1|Rest]) :- H1 < H2, merge(T1, [H2|T2], Rest), !.
+merge([H1|T1], [H2|T2], [H2|Rest]) :- H2 =< H1, merge([H1|T1], T2, Rest), !.
 
 
 
@@ -180,13 +204,23 @@ insert(X, [H|T], [H|Rest]) :- X > H, insert(X, T, Rest).
 tsize(nil, 0).
 % fact: the size of a leaf is 1
 tsize(leaf(_), 1).
-tsize(node(_, L, R), S) :- tsize(L, S1), tsize(R, S2), S is 1 + S1 + S2.
+tsize(node(_, L, R), S) :- tsize(L, S1), 
+						   tsize(R, S2),
+						   S is 1 + S1 + S2.
 
 % fact: the height of the empty tree is 0
 theight(nil, 0).
 % fact: the height of a leaf is 1
 theight(leaf(_), 1).
-theight(node(_, L, R), H) :- theight(L, H1), theight(R, H2), H is 1 + max(H1, H2).
+theight(node(_, L, R), H) :- theight(L, H1),
+							 theight(R, H2),
+							 H is 1 + max(H1, H2).
+
+flatten(nil, []).
+flatten(leaf(X), [X]).
+flatten(node(K, L, R), [K|Rest]) :- flatten(L, R1), 
+									flatten(R, R2), 
+									append(R1, R2, Rest). 
 
 
 

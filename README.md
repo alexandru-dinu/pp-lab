@@ -17,4 +17,7 @@ Source files and other useful stuff.
  - [Hoogle - Haskell API search engine](https://www.haskell.org/hoogle/)
  - [λ-calculus interpreter](https://goo.gl/eBPIMU)
  - [elsa](https://github.com/ucsd-progsys/elsa) - a tiny language designed to build intuition about how computation-by-substitution works in λ-calculus
+ - [SWI-Prolog documentation](http://www.swi-prolog.org/pldoc/man?section=builtin)
+ - [Learn Prolog Now!](http://www.learnprolognow.org/lpnpage.php?pageid=online)
  - [Prolog visualizer](http://www.cdglabs.org/prolog/)
+ - [SWISH notebook](http://swish.swi-prolog.org/example/examples.swinb)
