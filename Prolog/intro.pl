@@ -145,6 +145,7 @@ complement(L, Out) :- gen_list(0, 1, 7, World), set_difference(World, L, Out).
 %% OCW EXERCISES
 
 firstTwo(X, Y, [H1,H2|_]) :- X = H1, Y = H2.
+firstTwo2(H1, H2, [H1,H2|_]).
 
 notContains(_, []).
 notContains(E, [H|T]) :- E \= H, notContains(E, T), !.
