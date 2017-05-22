@@ -27,3 +27,9 @@ p2(X):-  a(X).
 p2(X):-  b(X),  c(X), !,  d(X),  e(X).
 p2(X):-  f(X).
 
+
+g(X) :- a(X).
+mf(_) :- fail.
+
+mnot(Goal) :- Goal, !, fail.
+mnot(_).

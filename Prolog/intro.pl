@@ -1,7 +1,7 @@
 %% INTRO
 
 % key-features of Prolog
-% knowledge bases 
+% knowledge bases
 % simple interogations
 % pattern matching
 % goal satisfaction via automatic backtracking
@@ -60,7 +60,7 @@ lsum([H|T], S) :- lsum(T, Snext), S is H + Snext.
 
 
 lhead([H|_], H).
-% head([], Out) is false 
+% head([], Out) is false
 
 ltail([_|T], T).
 % list([], Out) is false
@@ -87,11 +87,26 @@ ltake(N, [H|T], [H|Rest]) :- N1 is N - 1, ltake(N1, T, Rest), !.
 
 %% SET OPERATIONS
 
+pairs(_, [], []).
+pairs(X, [H|T], [(X, H)|R]) :- pairs(X, T, R), !.
+
+cartesian([], _, []).
+cartesian([A|As], Bs, C) :- pairs(A, Bs, S1),
+							cartesian(As, Bs, Rest),
+							append(S1, Rest, C).
+
+% for later discussion
+power_set([], []).
+power_set([H|T], Out) :- power_set(T, Out). % branch 1
+power_set([H|T], [H|Out]) :- power_set(T, Out). % branch 2
+
+
+
 % set union (Ain, Bin, Rout)
 % R = {x | x in A or x in B}
 
 % base cases
-set_union([], L, L). 
+set_union([], L, L).
 set_union(L, [], L).
 
 set_union([H|T], B, R) :- member(H, B), set_union(T, B, R), !.
@@ -105,9 +120,9 @@ set_union([H|T], B, [H|R]) :- not(member(H, B)), set_union(T, B, R), !.
 set_intersection([], _, []).
 set_intersection(_, [], []).
 
-set_intersection([H|T], B, [H|R]) :- 
+set_intersection([H|T], B, [H|R]) :-
 	member(H, B), set_intersection(T, B, R), !.
-set_intersection([H|T], B, R) :- 
+set_intersection([H|T], B, R) :-
 	not(member(H, B)), set_intersection(T, B, R), !.
 
 
@@ -118,17 +133,17 @@ set_intersection([H|T], B, R) :-
 set_difference([], _, []).
 set_difference(A, [], A).
 
-set_difference([H|T], B, [H|R]) :- 
+set_difference([H|T], B, [H|R]) :-
 	not(member(H, B)), set_difference(T, B, R), !.
-set_difference([H|T], B, R) :- 
+set_difference([H|T], B, R) :-
 	member(H, B), set_difference(T, B, R), !.
 
 
 % generate list (start:step:lim)
 gen_list(Start, _, Lim, []) :- Start > Lim, !.
-gen_list(Start, Step, Lim, [Start|Rest]) :- 
+gen_list(Start, Step, Lim, [Start|Rest]) :-
 	S is Start + Step, S =< Lim, gen_list(S, Step, Lim, Rest), !.
-gen_list(Start, Step, Lim, [Start]) :- 
+gen_list(Start, Step, Lim, [Start]) :-
 	S is Start + Step, S > Lim, !.
 
 
@@ -152,14 +167,14 @@ notContains(E, [H|T]) :- E \= H, notContains(E, T), !.
 
 
 %	unique(Lin, Lout)
-unique([], []). 
+unique([], []).
 unique([H|T], R) :- unique(T, R), member(H, R).
-unique([H|T], [H|R]) :- unique(T, R), not(member(H, R)). 
+unique([H|T], [H|R]) :- unique(T, R), not(member(H, R)).
 
 %	listOnly(Lin, Lout)
 listOnly([], []).
 listOnly([H|T], R) :- listOnly(T, R), not(isList(H)).
-listOnly([H|T], [H|R]) :- listOnly(T, R), isList(H). 
+listOnly([H|T], [H|R]) :- listOnly(T, R), isList(H).
 
 isList([]).
 isList([_|_]).
@@ -184,7 +199,7 @@ mergeSort(L, Sorted) :- split(L, Left, Right),
 						merge(LL, RR, Sorted), !.
 
 split(L, L1, L2) :- append(L1, L2, L),
-					length(L1, N1), 
+					length(L1, N1),
 					length(L2, N2),
 					(N1 = N2 ; 1 is abs(N1-N2)), !.
 
@@ -205,7 +220,7 @@ merge([H1|T1], [H2|T2], [H2|Rest]) :- H2 =< H1, merge([H1|T1], T2, Rest), !.
 tsize(nil, 0).
 % fact: the size of a leaf is 1
 tsize(leaf(_), 1).
-tsize(node(_, L, R), S) :- tsize(L, S1), 
+tsize(node(_, L, R), S) :- tsize(L, S1),
 						   tsize(R, S2),
 						   S is 1 + S1 + S2.
 
@@ -219,14 +234,9 @@ theight(node(_, L, R), H) :- theight(L, H1),
 
 flatten(nil, []).
 flatten(leaf(X), [X]).
-flatten(node(K, L, R), [K|Rest]) :- flatten(L, R1), 
-									flatten(R, R2), 
-									append(R1, R2, Rest). 
-
-
-
-
-
+flatten(node(K, L, R), [K|Rest]) :- flatten(L, R1),
+									flatten(R, R2),
+									append(R1, R2, Rest).
 
 %% EVAL
 eval(val(V), R) :- R is V.

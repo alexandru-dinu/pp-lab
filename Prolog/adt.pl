@@ -1,4 +1,4 @@
-% natural numbers: z = 0, s(X): succesor 
+% natural numbers: z = 0, s(X): succesor
 inc(X, s(X)).
 
 % A1: x + s(y) = s(x + y)

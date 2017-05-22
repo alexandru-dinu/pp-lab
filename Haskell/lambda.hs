@@ -36,7 +36,7 @@ subst x e (App e1 e2) = App (subst x e e1) (subst x e e2)
 
 -- {\x.e'}[e/x] is \x.e'
 -- {\y.e'}[e/x] is \y.e'[e/x] if y is not free in e
-subst x e (Lambda y e') = if x == y then (Lambda y e') 
+subst x e (Lambda y e') = if x == y then (Lambda y e')
                                     else if y `elem` (fv e) then subst x e (Lambda "M" (subst y (Var "M") e'))
                                                             else Lambda y (subst x e e')
 
@@ -51,9 +51,9 @@ fv (App e e') = (fv e) ++ (fv e')
 bv :: Lambda -> [String]
 bv (Var v) = []
 bv (Lambda x e) = x:(bv e)
-bv (App e e') = [v | v <- (bv e), not (v `elem` (fv e'))] ++ 
+bv (App e e') = [v | v <- (bv e), not (v `elem` (fv e'))] ++
 				[v | v <- (bv e'), not (v `elem` (fv e))]
- 
+
 
 -- normal evaluation
 normal :: Lambda -> Lambda
@@ -70,10 +70,8 @@ applicative :: Lambda -> Lambda
 applicative (App (Lambda x e) e') = case e' of
                                       (App (Lambda _ _) _) -> applicative (App (Lambda x e) (applicative e'))
                                       _ -> applicative (subst x e' e)
--- TAPP1                                      
+-- TAPP1
 applicative (App e e') = case applicative e of
                       (Lambda x e'') -> applicative (App (Lambda x e'') e')
                       _ -> (App e e')
 applicative e = e
-
-
