@@ -20,7 +20,7 @@ foldl(_, Acc, [], Acc) :- !.
 foldl(Op, Acc, [H|T], Out) :- call(Op, Acc, H, NewAcc), foldl(Op, NewAcc, T, Out).
 
 foldr(_, Acc, [], Acc) :- !.
-foldr(Op, Acc, [H|T], Out) :- foldr(Op, Acc, T, NewAcc), call(Op, H, NewAcc, Out). 
+foldr(Op, Acc, [H|T], Out) :- foldr(Op, Acc, T, NewAcc), call(Op, H, NewAcc, Out).
 
 zipWith(_, [], [], []).
 zipWith(_, L, [], L).
