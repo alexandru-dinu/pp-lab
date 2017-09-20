@@ -1,6 +1,6 @@
 # README
 
-Source files and other useful stuff.
+Source files and useful resources.
 
 **Books**
 
