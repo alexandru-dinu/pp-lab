@@ -1,4 +1,3 @@
-
 cons(X, L, [X|L]).
 swap_cons(L, X, [X|L]).
 

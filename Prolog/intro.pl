@@ -39,9 +39,6 @@ father(homer, maggie).
 grandfather(X, Y) :- father(X, Z), father(Z, Y).
 
 
-
-
-
 % warm-up
 palindrome(L) :- reverse(L, L).
 
@@ -49,8 +46,8 @@ palindrome(L) :- reverse(L, L).
 %% LIST OPERATIONS
 % in Prolog, list are not homogenous
 % we can have [1, 2, [3, 4, 5], [6, [7]], 8, 9, [10]]
-
 % fact: size of the empty list is 0
+
 lsize([], 0).
 lsize([_|T], S) :- lsize(T, Snext), S is Snext + 1.
 
@@ -78,11 +75,12 @@ ltake(N, _, []) :- N = 0, !.
 %ltake(N, L, L) :- lsize(L, N), !.
 ltake(N, [H|T], [H|Rest]) :- N1 is N - 1, ltake(N1, T, Rest), !.
 
+isList([]).
+isList([_|_]).
 
-
-
-
-
+lflatten([], []).
+lflatten([H|T], [H|Rest]) :- not(isList(H)), lflatten(T, Rest).
+lflatten([H|T], Rest) :- isList(H), lflatten(T, R1), append(H, R1, Rest).
 
 
 %% SET OPERATIONS
@@ -97,9 +95,8 @@ cartesian([A|As], Bs, C) :- pairs(A, Bs, S1),
 
 % for later discussion
 power_set([], []).
-power_set([H|T], Out) :- power_set(T, Out). % branch 1
+power_set([_|T], Out) :- power_set(T, Out). % branch 1
 power_set([H|T], [H|Out]) :- power_set(T, Out). % branch 2
-
 
 
 % set union (Ain, Bin, Rout)
@@ -153,10 +150,6 @@ gen_list(Start, Step, Lim, [Start]) :-
 complement(L, Out) :- gen_list(0, 1, 7, World), set_difference(World, L, Out).
 
 
-
-
-
-
 %% OCW EXERCISES
 
 firstTwo(X, Y, [H1,H2|_]) :- X = H1, Y = H2.
@@ -175,10 +168,6 @@ unique([H|T], [H|R]) :- unique(T, R), not(member(H, R)).
 listOnly([], []).
 listOnly([H|T], R) :- listOnly(T, R), not(isList(H)).
 listOnly([H|T], [H|R]) :- listOnly(T, R), isList(H).
-
-isList([]).
-isList([_|_]).
-
 
 % insertionSort(Lin, Lout)
 insertionSort([], []).
