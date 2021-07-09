@@ -31,8 +31,8 @@ printMatrix m = putStr $ foldr (\line rest -> (getString line) ++ "\n" ++ rest) 
 
 
 --	transpose
-tr ([]:_) = [] -- done
-tr m = (map head m):(tr (map tail m))
+transpose ([]:_) = [] -- done
+transpose m = (map head m):(transpose (map tail m))
 
 
 m1 = [[1, 2], [3, 4]]
@@ -43,4 +43,4 @@ msum m1 m2 = zipWith (zipWith (+)) m1 m2
 
 --	multiplying m1 x m2
 r i j = sum $ zipWith (*) i j
-mult m1 m2 = map (\i -> (map (\j -> (r i j)) (tr m2))) m1
+mult m1 m2 = map (\i -> (map (\j -> (r i j)) (transpose m2))) m1
