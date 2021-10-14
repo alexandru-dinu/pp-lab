@@ -1,30 +1,36 @@
 -- skel from: https://www.codewars.com/kata/599d973255342a0ce400009b
-
-{-# LANGUAGE GADTs, DataKinds, TypeFamilies, UndecidableInstances #-}
+{-# LANGUAGE GADTs, DataKinds, TypeFamilies, UndecidableInstances
+  #-}
 
 -- | The natural numbers.
-data Nat = Z | S Nat deriving Show
+data Nat
+  = Z
+  | S Nat
+  deriving (Show)
 
 -- | The axioms of even numbers.
-data Even (a :: Nat) :: * where
+data Even (a :: Nat) :: *
     -- | Zero is even.
-    ZeroEven :: Even Z
+      where
+  ZeroEven :: Even Z
     -- | If n is even, then n+2 is even.
-    NextEven :: Even n -> Even (S (S n))
+  NextEven :: Even n -> Even (S (S n))
 
 -- | The axioms of odd numbers.
-data Odd (a :: Nat) :: * where
+data Odd (a :: Nat) :: *
     -- | One is odd.
-    OneOdd :: Odd (S Z)
+      where
+  OneOdd :: Odd (S Z)
     -- | If n is odd, then n+2 is odd.
-    NextOdd :: Odd n -> Odd (S (S n))
+  NextOdd :: Odd n -> Odd (S (S n))
 
 -- | Adds two natural numbers together.
 -- Notice how the definition pattern matches.
-type family   Add (n :: Nat) (m :: Nat) :: Nat
-type instance Add Z m = m
-type instance Add (S n) m = S (Add n m)
+type family Add (n :: Nat) (m :: Nat) :: Nat
 
+type instance Add Z m = m
+
+type instance Add (S n) m = S (Add n m)
 
 natToInt :: Nat -> Int
 natToInt Z = 0
@@ -38,17 +44,27 @@ fromEven :: Even a -> Int
 fromEven ZeroEven = 0
 fromEven (NextEven n) = 2 + fromEven n
 
-zero    = ZeroEven
-one     = OneOdd
-two     = NextEven zero
-three   = NextOdd one
-four    = NextEven two
-five    = NextOdd three
-six     = NextEven four
-seven   = NextOdd five
-eight   = NextEven six
-nine    = NextOdd seven
-ten     = NextEven eight
+zero = ZeroEven
+
+one = OneOdd
+
+two = NextEven zero
+
+three = NextOdd one
+
+four = NextEven two
+
+five = NextOdd three
+
+six = NextEven four
+
+seven = NextOdd five
+
+eight = NextEven six
+
+nine = NextOdd seven
+
+ten = NextEven eight
 
 -- | Proves that if n is even, n+1 is odd.
 -- Notice how I use the axioms here.
@@ -86,8 +102,10 @@ oddPlusEven OneOdd m = evenPlusOne m
 oddPlusEven (NextOdd n) m = NextOdd (oddPlusEven n m)
 
 -- | Multiplies two natural numbers.
-type family   Mult (n :: Nat) (m :: Nat) :: Nat
+type family Mult (n :: Nat) (m :: Nat) :: Nat
+
 type instance Mult Z m = Z
+
 type instance Mult (S n) m = Add (Mult n m) m
 
 evenTimesTwo :: Even n -> Even (Add n n)
@@ -96,7 +114,8 @@ evenTimesTwo n = evenPlusEven n n
 -- | Proves even * even = even
 evenTimesEven :: Even n -> Even m -> Even (Mult n m)
 evenTimesEven ZeroEven _ = ZeroEven
-evenTimesEven (NextEven n) m = evenPlusEven (evenPlusEven (evenTimesEven n m) m) m
+evenTimesEven (NextEven n) m =
+  evenPlusEven (evenPlusEven (evenTimesEven n m) m) m
 
 -- | Proves odd * odd = odd
 oddTimesOdd :: Odd n -> Odd m -> Odd (Mult n m)
